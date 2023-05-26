@@ -2,6 +2,7 @@ package med.lucas.api.controllers;
 
 import jakarta.validation.Valid;
 import med.lucas.api.DTO.CadastroMedico;
+import med.lucas.api.DTO.DadosAtualizaMedico;
 import med.lucas.api.DTO.DadosListagemMedico;
 import med.lucas.api.medico.Medico;
 import med.lucas.api.repository.MedicoRepository;
@@ -9,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
@@ -34,8 +36,33 @@ public class MedicoController {
     // "?sort=atributo,desc" para descrescente
 
     //Podemos mudar os nomes desses parâmetros no application.properties
+
+    //Eu só quero listar os médicos que estão ativos. Logo, quero listar apenas os médicos que o atributo Ativo seja TRUE
+    //O SPRING DATA tem um padrão de nomeclatura que se criarmos o método com esse padrão, ele consegue montar a consulta a query
+    //e gerar um comando SQL da maneira que desejarmos
     @GetMapping
-    public Page<DadosListagemMedico> listarMedicos(@PageableDefault(size = 5, page = 0, sort = "nome") Pageable paginacao) {
-        return repository.findAll(paginacao).map(DadosListagemMedico::new);
+    public Page<DadosListagemMedico> listarMedico(@PageableDefault(size = 5, page = 0, sort = "nome") Pageable paginacao) {
+        return repository.findAllByAtivoTrue(paginacao).map(DadosListagemMedico::new);
+    }
+
+    @PutMapping
+    @Transactional
+    public void atualizaMedico(@RequestBody @Valid DadosAtualizaMedico dados) {
+        var medico = repository.getReferenceById(dados.id());
+        medico.atualizaMedico(dados);
+    }
+
+    @DeleteMapping("/{id}") //A anotação @PathVariable indica a que o ID passado como parâmetro no método excluirMedico será o caractere dinâmido do @DeleteMapping
+    @Transactional
+    public void excluirMedico(@PathVariable Long id) {
+        repository.deleteById(id);
+    }
+
+    @DeleteMapping("/inactive/{id}")
+    @Transactional
+    public ResponseEntity tornaInativo(@PathVariable Long id) {
+        var medico = repository.getReferenceById(id);
+        medico.inativo();
+        return ResponseEntity.ok().build();
     }
 }
