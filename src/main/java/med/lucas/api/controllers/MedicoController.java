@@ -20,7 +20,7 @@ public class MedicoController {
     @Autowired
     private MedicoRepository repository;
 
-    @PostMapping
+    @PostMapping(value = "/cadastro")
     @Transactional
     public void cadastraMedico(@RequestBody @Valid CadastroMedico dados) {
         repository.save(new Medico(dados));
@@ -40,19 +40,19 @@ public class MedicoController {
     //Eu só quero listar os médicos que estão ativos. Logo, quero listar apenas os médicos que o atributo Ativo seja TRUE
     //O SPRING DATA tem um padrão de nomeclatura que se criarmos o método com esse padrão, ele consegue montar a consulta a query
     //e gerar um comando SQL da maneira que desejarmos
-    @GetMapping
+    @GetMapping(value = "/all")
     public Page<DadosListagemMedico> listarMedico(@PageableDefault(size = 5, page = 0, sort = "nome") Pageable paginacao) {
         return repository.findAllByAtivoTrue(paginacao).map(DadosListagemMedico::new);
     }
 
-    @PutMapping
+    @PutMapping(value = "/att")
     @Transactional
     public void atualizaMedico(@RequestBody @Valid DadosAtualizaMedico dados) {
         var medico = repository.getReferenceById(dados.id());
         medico.atualizaMedico(dados);
     }
 
-    @DeleteMapping("/{id}") //A anotação @PathVariable indica a que o ID passado como parâmetro no método excluirMedico será o caractere dinâmido do @DeleteMapping
+    @DeleteMapping("/delete/{id}") //A anotação @PathVariable indica a que o ID passado como parâmetro no método excluirMedico será o caractere dinâmido do @DeleteMapping
     @Transactional
     public void excluirMedico(@PathVariable Long id) {
         repository.deleteById(id);
@@ -63,6 +63,14 @@ public class MedicoController {
     public ResponseEntity tornaInativo(@PathVariable Long id) {
         var medico = repository.getReferenceById(id);
         medico.inativo();
+        return ResponseEntity.ok().build();
+    }
+
+    @PutMapping("/active/{id}")
+    @Transactional
+    public ResponseEntity tornaAtivo(@PathVariable Long id) {
+        var medico = repository.getReferenceById(id);
+        medico.ativo();
         return ResponseEntity.ok().build();
     }
 }
