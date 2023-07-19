@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import med.lucas.api.dto.CadastroPaciente;
 import med.lucas.api.endereco.Endereco;
 
 @Table(name = "Pacientes")
@@ -21,6 +22,18 @@ public class Paciente {
     private String email;
     private String telefone;
     private String cpf;
+    @Enumerated(EnumType.STRING)
+    private Plano plano;
+    @Embedded
     private Endereco endereco;
     private boolean ativo;
+
+    public Paciente(CadastroPaciente cadastroPaciente) {
+        this.nome = cadastroPaciente.nome();
+        this.email = cadastroPaciente.email();
+        this.telefone = cadastroPaciente.telefone();
+        this.cpf = cadastroPaciente.cpf();
+        this.endereco = new Endereco(cadastroPaciente.endereco());
+        this.ativo = true;
+    }
 }
