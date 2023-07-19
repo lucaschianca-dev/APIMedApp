@@ -33,6 +33,7 @@ public class Paciente {
         this.email = cadastroPaciente.email();
         this.telefone = cadastroPaciente.telefone();
         this.cpf = cadastroPaciente.cpf();
+        this.plano = cadastroPaciente.plano();
         this.endereco = new Endereco(cadastroPaciente.endereco());
         this.ativo = true;
     }
