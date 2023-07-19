@@ -49,10 +49,17 @@ public class MedicoController {
     //O SPRING DATA tem um padrão de nomeclatura que se criarmos o método com esse padrão, ele consegue montar a consulta a query
     //e gerar um comando SQL da maneira que desejarmos
     @GetMapping(value = "/all")
-    public ResponseEntity<Page<DadosListagemMedico>> listarMedico(@PageableDefault(size = 5, page = 0, sort = "nome") Pageable paginacao) {
+    public ResponseEntity<Page<DadosListagemMedico>> listaMedico(@PageableDefault(size = 5, page = 0, sort = "nome") Pageable paginacao) {
         var resultPage = repository.findAllByAtivoTrue(paginacao).map(DadosListagemMedico::new);
         return ResponseEntity.ok(resultPage);
     }
+
+    @GetMapping(value = "/{id}")
+    public ResponseEntity buscaMedico(@PathVariable Long id) {
+        var resultMedico = repository.getReferenceById(id);
+        return ResponseEntity.ok(new DadosDetalhamentoMedico(resultMedico));
+    }
+
 
     @PutMapping(value = "/att")
     @Transactional
