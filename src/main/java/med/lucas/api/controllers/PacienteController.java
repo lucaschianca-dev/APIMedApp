@@ -67,5 +67,12 @@ public class PacienteController {
         return ResponseEntity.ok().build();
     }
 
+    @DeleteMapping(value = "/delete/{id}")
+    @Transactional
+    public ResponseEntity excluiPaciente(@PathVariable Long id) {
+        pacienteRepository.deleteById(id);
+        return ResponseEntity.noContent().build();
+    }
+
 
 }
