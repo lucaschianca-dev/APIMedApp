@@ -55,7 +55,7 @@ public class MedicoController {
         return ResponseEntity.ok(resultPageMedicos);
     }
 
-    @GetMapping(value = "/{id}")
+    @GetMapping(value = "/det/{id}")
     public ResponseEntity buscaMedico(@PathVariable Long id) {
         var resultMedico = repository.getReferenceById(id);
         return ResponseEntity.ok(new DadosDetalhamentoMedico(resultMedico));
@@ -78,7 +78,7 @@ public class MedicoController {
 
     @DeleteMapping("/inactive/{id}")
     @Transactional
-    public ResponseEntity tornaInativo(@PathVariable Long id) {
+    public ResponseEntity inativaMedico(@PathVariable Long id) {
         var medico = repository.getReferenceById(id);
         medico.inativo();
         return ResponseEntity.ok().build();
@@ -86,7 +86,7 @@ public class MedicoController {
 
     @PutMapping("/active/{id}")
     @Transactional
-    public ResponseEntity tornaAtivo(@PathVariable Long id) {
+    public ResponseEntity ativaMedico(@PathVariable Long id) {
         var medico = repository.getReferenceById(id);
         medico.ativo();
         return ResponseEntity.ok().build();

@@ -1,10 +1,7 @@
 package med.lucas.api.controllers;
 
 import jakarta.validation.Valid;
-import med.lucas.api.dto.CadastroPaciente;
-import med.lucas.api.dto.DadosAtualizaPaciente;
-import med.lucas.api.dto.DadosDetalhamentoPaciente;
-import med.lucas.api.dto.DadosListagemPaciente;
+import med.lucas.api.dto.*;
 import med.lucas.api.paciente.Paciente;
 import med.lucas.api.repository.PacienteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,6 +37,12 @@ public class PacienteController {
         return ResponseEntity.ok(resultPagePacientes);
     }
 
+    @GetMapping(value = "/{id}")
+    public ResponseEntity buscaPaciente(@PathVariable Long id) {
+        var resultPaciente = pacienteRepository.getReferenceById(id);
+        return ResponseEntity.ok(new DadosDetalhamentoPaciente(resultPaciente));
+    }
+
     @PutMapping(value = "/att")
     @Transactional
     public ResponseEntity atualizaPaciente(@RequestBody @Valid DadosAtualizaPaciente dadosAtualizaPaciente) {
@@ -47,4 +50,22 @@ public class PacienteController {
         result.atualizaPaciente(dadosAtualizaPaciente);
         return ResponseEntity.ok(new DadosDetalhamentoPaciente(result));
     }
+
+    @DeleteMapping(value = "/inactive/{id}")
+    @Transactional
+    public ResponseEntity inativaPaciente(@PathVariable Long id) {
+        var resultPaciente = pacienteRepository.getReferenceById(id);
+        resultPaciente.inativo();
+        return ResponseEntity.ok().build();
+    }
+
+    @PutMapping(value = "active/{id}")
+    @Transactional
+    public ResponseEntity ativaPaciente(@PathVariable Long id) {
+        var resultPaciente = pacienteRepository.getReferenceById(id);
+        resultPaciente.ativa();
+        return ResponseEntity.ok().build();
+    }
+
+
 }

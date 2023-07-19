@@ -52,4 +52,12 @@ public class Paciente {
                 this.endereco = dadosAtualizaPaciente.endereco();
         }
     }
+
+    public void inativo() {
+        this.ativo = false;
+    }
+
+    public void ativa() {
+        this.ativo = true;
+    }
 }
