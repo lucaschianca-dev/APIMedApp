@@ -3,6 +3,7 @@ package med.lucas.api.controllers;
 import jakarta.validation.Valid;
 import med.lucas.api.DTO.CadastroMedico;
 import med.lucas.api.DTO.DadosAtualizaMedico;
+import med.lucas.api.DTO.DadosDetalhamentoMedico;
 import med.lucas.api.DTO.DadosListagemMedico;
 import med.lucas.api.medico.Medico;
 import med.lucas.api.repository.MedicoRepository;
@@ -13,6 +14,7 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.util.UriComponentsBuilder;
 
 @RestController
 @RequestMapping("/medicos")
@@ -20,10 +22,16 @@ public class MedicoController {
     @Autowired
     private MedicoRepository repository;
 
+    //O método de cadastrar precisa devolver o código 201, a URI e tem que devolver no corpo da resposta uma representação do recurso recém criado.
     @PostMapping(value = "/cadastro")
     @Transactional
-    public void cadastraMedico(@RequestBody @Valid CadastroMedico dados) {
-        repository.save(new Medico(dados));
+    public ResponseEntity cadastraMedico(@RequestBody @Valid CadastroMedico dados, UriComponentsBuilder uriBuilder) {
+        var resultMedico = new Medico(dados);
+        repository.save(resultMedico);
+
+        var uri = uriBuilder.path("/medicos/{id}").buildAndExpand(resultMedico.getId()).toUri();
+
+        return ResponseEntity.created(uri).body(new DadosDetalhamentoMedico(resultMedico));
     }
 
     //Este método irá armazenar os médicos em uma lista, mostrando alguns de seus atributos.
@@ -41,21 +49,24 @@ public class MedicoController {
     //O SPRING DATA tem um padrão de nomeclatura que se criarmos o método com esse padrão, ele consegue montar a consulta a query
     //e gerar um comando SQL da maneira que desejarmos
     @GetMapping(value = "/all")
-    public Page<DadosListagemMedico> listarMedico(@PageableDefault(size = 5, page = 0, sort = "nome") Pageable paginacao) {
-        return repository.findAllByAtivoTrue(paginacao).map(DadosListagemMedico::new);
+    public ResponseEntity<Page<DadosListagemMedico>> listarMedico(@PageableDefault(size = 5, page = 0, sort = "nome") Pageable paginacao) {
+        var resultPage = repository.findAllByAtivoTrue(paginacao).map(DadosListagemMedico::new);
+        return ResponseEntity.ok(resultPage);
     }
 
     @PutMapping(value = "/att")
     @Transactional
-    public void atualizaMedico(@RequestBody @Valid DadosAtualizaMedico dados) {
+    public ResponseEntity atualizaMedico(@RequestBody @Valid DadosAtualizaMedico dados) {
         var medico = repository.getReferenceById(dados.id());
         medico.atualizaMedico(dados);
+        return ResponseEntity.ok(new DadosDetalhamentoMedico(medico));
     }
 
     @DeleteMapping("/delete/{id}") //A anotação @PathVariable indica a que o ID passado como parâmetro no método excluirMedico será o caractere dinâmido do @DeleteMapping
     @Transactional
-    public void excluirMedico(@PathVariable Long id) {
+    public ResponseEntity excluiMedico(@PathVariable Long id) {
         repository.deleteById(id);
+        return ResponseEntity.noContent().build();
     }
 
     @DeleteMapping("/inactive/{id}")
