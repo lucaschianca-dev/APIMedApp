@@ -6,6 +6,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import med.lucas.api.dto.CadastroPaciente;
+import med.lucas.api.dto.DadosAtualizaPaciente;
 import med.lucas.api.endereco.Endereco;
 
 @Table(name = "Pacientes")
@@ -36,5 +37,19 @@ public class Paciente {
         this.plano = cadastroPaciente.plano();
         this.endereco = new Endereco(cadastroPaciente.endereco());
         this.ativo = true;
+    }
+
+    public void atualizaPaciente(DadosAtualizaPaciente dadosAtualizaPaciente) {
+        if (dadosAtualizaPaciente.id() == null) {
+        }else {
+            if (dadosAtualizaPaciente.email() != null)
+                this.email = dadosAtualizaPaciente.email();
+            if (dadosAtualizaPaciente.telefone() != null)
+                this.telefone = dadosAtualizaPaciente.telefone();
+            if (dadosAtualizaPaciente.plano() != null)
+                this.plano = dadosAtualizaPaciente.plano();
+            if (dadosAtualizaPaciente.endereco() != null)
+                this.endereco = dadosAtualizaPaciente.endereco();
+        }
     }
 }

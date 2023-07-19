@@ -51,8 +51,8 @@ public class MedicoController {
     //e gerar um comando SQL da maneira que desejarmos
     @GetMapping(value = "/all")
     public ResponseEntity<Page<DadosListagemMedico>> listaMedico(@PageableDefault(size = 5, page = 0, sort = "nome") Pageable paginacao) {
-        var resultPage = repository.findAllByAtivoTrue(paginacao).map(DadosListagemMedico::new);
-        return ResponseEntity.ok(resultPage);
+        var resultPageMedicos = repository.findAllByAtivoTrue(paginacao).map(DadosListagemMedico::new);
+        return ResponseEntity.ok(resultPageMedicos);
     }
 
     @GetMapping(value = "/{id}")
@@ -61,13 +61,12 @@ public class MedicoController {
         return ResponseEntity.ok(new DadosDetalhamentoMedico(resultMedico));
     }
 
-
     @PutMapping(value = "/att")
     @Transactional
     public ResponseEntity atualizaMedico(@RequestBody @Valid DadosAtualizaMedico dados) {
-        var medico = repository.getReferenceById(dados.id());
-        medico.atualizaMedico(dados);
-        return ResponseEntity.ok(new DadosDetalhamentoMedico(medico));
+        var resultMedico = repository.getReferenceById(dados.id());
+        resultMedico.atualizaMedico(dados);
+        return ResponseEntity.ok(new DadosDetalhamentoMedico(resultMedico));
     }
 
     @DeleteMapping("/delete/{id}") //A anotação @PathVariable indica a que o ID passado como parâmetro no método excluirMedico será o caractere dinâmido do @DeleteMapping
