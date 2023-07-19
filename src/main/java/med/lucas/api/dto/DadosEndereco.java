@@ -1,4 +1,4 @@
-package med.lucas.api.DTO;
+package med.lucas.api.dto;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;

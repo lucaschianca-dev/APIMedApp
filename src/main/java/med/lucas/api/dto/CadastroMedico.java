@@ -1,4 +1,4 @@
-package med.lucas.api.DTO;
+package med.lucas.api.dto;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Email;

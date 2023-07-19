@@ -1,10 +1,10 @@
 package med.lucas.api.controllers;
 
 import jakarta.validation.Valid;
-import med.lucas.api.DTO.CadastroMedico;
-import med.lucas.api.DTO.DadosAtualizaMedico;
-import med.lucas.api.DTO.DadosDetalhamentoMedico;
-import med.lucas.api.DTO.DadosListagemMedico;
+import med.lucas.api.dto.CadastroMedico;
+import med.lucas.api.dto.DadosAtualizaMedico;
+import med.lucas.api.dto.DadosDetalhamentoMedico;
+import med.lucas.api.dto.DadosListagemMedico;
 import med.lucas.api.medico.Medico;
 import med.lucas.api.repository.MedicoRepository;
 import org.springframework.beans.factory.annotation.Autowired;

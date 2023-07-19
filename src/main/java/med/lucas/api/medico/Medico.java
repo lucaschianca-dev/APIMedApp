@@ -5,8 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import med.lucas.api.DTO.CadastroMedico;
-import med.lucas.api.DTO.DadosAtualizaMedico;
+import med.lucas.api.dto.CadastroMedico;
+import med.lucas.api.dto.DadosAtualizaMedico;
 import med.lucas.api.endereco.Endereco;
 
 //Esta é a entidade JPA

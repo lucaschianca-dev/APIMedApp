@@ -1,4 +1,4 @@
-package med.lucas.api.DTO;
+package med.lucas.api.dto;
 
 import med.lucas.api.endereco.Endereco;
 import med.lucas.api.medico.Especialidade;
