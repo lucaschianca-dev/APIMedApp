@@ -2,7 +2,7 @@ package med.lucas.api.controllers;
 
 import jakarta.validation.Valid;
 import med.lucas.api.dto.*;
-import med.lucas.api.paciente.Paciente;
+import med.lucas.api.domain.paciente.Paciente;
 import med.lucas.api.repository.PacienteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -10,6 +10,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -39,7 +40,7 @@ public class PacienteController {
 
     @GetMapping(value = "/{id}")
     public ResponseEntity buscaPaciente(@PathVariable Long id) {
-        var resultPaciente = pacienteRepository.findById(id).orElseThrow();
+        var resultPaciente = pacienteRepository.getReferenceById(id);
         return ResponseEntity.ok(new DadosDetalhamentoPaciente(resultPaciente));
     }
 
@@ -73,6 +74,4 @@ public class PacienteController {
         pacienteRepository.deleteById(id);
         return ResponseEntity.noContent().build();
     }
-
-
 }

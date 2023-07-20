@@ -1,4 +1,4 @@
-package med.lucas.api.endereco;
+package med.lucas.api.domain.endereco;
 
 import jakarta.persistence.Embeddable;
 import lombok.AllArgsConstructor;

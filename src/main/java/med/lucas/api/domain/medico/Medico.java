@@ -1,13 +1,13 @@
-package med.lucas.api.medico;
+package med.lucas.api.domain.medico;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import med.lucas.api.domain.endereco.Endereco;
 import med.lucas.api.dto.CadastroMedico;
 import med.lucas.api.dto.DadosAtualizaMedico;
-import med.lucas.api.endereco.Endereco;
 
 //Esta é a entidade JPA
 @Table(name = "medicos")

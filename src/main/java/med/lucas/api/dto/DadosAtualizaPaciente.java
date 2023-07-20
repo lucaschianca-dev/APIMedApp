@@ -1,8 +1,8 @@
 package med.lucas.api.dto;
 
 import jakarta.validation.constraints.NotNull;
-import med.lucas.api.endereco.Endereco;
-import med.lucas.api.paciente.Plano;
+import med.lucas.api.domain.endereco.Endereco;
+import med.lucas.api.domain.paciente.Plano;
 
 public record DadosAtualizaPaciente(
         @NotNull

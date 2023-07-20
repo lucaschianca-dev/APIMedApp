@@ -1,4 +1,4 @@
-package med.lucas.api.paciente;
+package med.lucas.api.domain.paciente;
 
 public enum Plano {
     BASIC,

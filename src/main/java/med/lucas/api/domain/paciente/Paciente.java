@@ -1,13 +1,13 @@
-package med.lucas.api.paciente;
+package med.lucas.api.domain.paciente;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import med.lucas.api.domain.endereco.Endereco;
 import med.lucas.api.dto.CadastroPaciente;
 import med.lucas.api.dto.DadosAtualizaPaciente;
-import med.lucas.api.endereco.Endereco;
 
 @Table(name = "Pacientes")
 @Entity(name = "Paciente")

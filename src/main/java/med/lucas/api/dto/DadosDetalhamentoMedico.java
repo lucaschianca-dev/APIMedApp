@@ -1,8 +1,8 @@
 package med.lucas.api.dto;
 
-import med.lucas.api.endereco.Endereco;
-import med.lucas.api.medico.Especialidade;
-import med.lucas.api.medico.Medico;
+import med.lucas.api.domain.endereco.Endereco;
+import med.lucas.api.domain.medico.Especialidade;
+import med.lucas.api.domain.medico.Medico;
 
 public record DadosDetalhamentoMedico(
         Long id,

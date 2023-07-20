@@ -5,7 +5,7 @@ import med.lucas.api.dto.CadastroMedico;
 import med.lucas.api.dto.DadosAtualizaMedico;
 import med.lucas.api.dto.DadosDetalhamentoMedico;
 import med.lucas.api.dto.DadosListagemMedico;
-import med.lucas.api.medico.Medico;
+import med.lucas.api.domain.medico.Medico;
 import med.lucas.api.repository.MedicoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -57,7 +57,7 @@ public class MedicoController {
 
     @GetMapping(value = "/{id}")
     public ResponseEntity buscaMedico(@PathVariable Long id) {
-        var resultMedico = repository.findById(id).orElseThrow();
+        var resultMedico = repository.getReferenceById(id);
         return ResponseEntity.ok(new DadosDetalhamentoMedico(resultMedico));
     }
 

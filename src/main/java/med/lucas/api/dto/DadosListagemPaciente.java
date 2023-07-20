@@ -1,8 +1,7 @@
 package med.lucas.api.dto;
 
-import med.lucas.api.medico.Especialidade;
-import med.lucas.api.paciente.Paciente;
-import med.lucas.api.paciente.Plano;
+import med.lucas.api.domain.paciente.Paciente;
+import med.lucas.api.domain.paciente.Plano;
 
 public record DadosListagemPaciente(
         Long id,
