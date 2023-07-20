@@ -39,7 +39,7 @@ public class PacienteController {
 
     @GetMapping(value = "/{id}")
     public ResponseEntity buscaPaciente(@PathVariable Long id) {
-        var resultPaciente = pacienteRepository.getReferenceById(id);
+        var resultPaciente = pacienteRepository.findById(id).orElseThrow();
         return ResponseEntity.ok(new DadosDetalhamentoPaciente(resultPaciente));
     }
 
