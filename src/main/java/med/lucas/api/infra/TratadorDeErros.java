@@ -19,7 +19,6 @@ public class TratadorDeErros {
     public ResponseEntity tratarErro400(MethodArgumentNotValidException exception) {
         var erros = exception.getFieldErrors();
 
-        //;
         //é necessário converter a lista de erros para uma lista de DadosErrosValidação (para capturar apenas os erros desejados)
         //Então, para convertermos de uma lista para outra, chamamos os recursos do Java8 - erros.stream().map(Dto desejado),
         //adicionar - ::new - para chamar o construtor e no final adicionar - .toList() - para converter para uma lista
@@ -29,7 +28,7 @@ public class TratadorDeErros {
 
 
     //================================================================================================//
-    //                                           DTOs                                                 //
+    //                                           DTO                                                  //
     //================================================================================================//
     private record DadosErro400(String campo, String mensagem) {
         public DadosErro400(FieldError fieldError) {
