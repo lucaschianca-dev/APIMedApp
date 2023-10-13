@@ -1,4 +1,4 @@
-package med.lucas.api.infra;
+package med.lucas.api.infra.exception;
 
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.http.ResponseEntity;
