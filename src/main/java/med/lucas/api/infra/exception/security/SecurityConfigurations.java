@@ -12,11 +12,10 @@ import org.springframework.security.web.SecurityFilterChain;
 public class SecurityConfigurations {
     //Queremos informar que o processo de autenticação não é mais STATEFUL  e sim STATELESS
 
-    @Bean //Devolve o objeto para o Spring
-    public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
-        return httpSecurity.csrf().disable() //O JWT já protege de ataques CSRF, então seria redundande
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and().build();
-
+    @Bean
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        return http.csrf(csrf -> csrf.disable())
+                .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .build();
     }
 }
